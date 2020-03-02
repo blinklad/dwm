@@ -9,11 +9,11 @@ static const int smartgaps          = 0;        /* 1 means no outer gap when the
 static const unsigned int borderpx  = 3;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
-static const int topbar             = 1;        /* 0 means bottom bar */
+static const int topbar             = 0;        /* 0 means bottom bar */
 static const int vertpad            = 10;       /* vertical padding of bar */
 static const int sidepad            = 20;       /* horizontal padding of bar */
-static const char *fonts[]          = { "monospace:size=12" };
-static const char dmenufont[]       = "monospace:size=12";
+static const char *fonts[]          = { "JetBrainsMono Nerd Font:style=Medium:size=10" };
+static const char dmenufont[]       = "JetBrainsMono Nerd Font:style=Medium:size=16";
 static char normbgcolor[]           = "#222222";
 static char normbordercolor[]       = "#444444";
 static char normfgcolor[]           = "#bbbbbb";
@@ -73,7 +73,7 @@ static const Layout layouts[] = {
 	/* { MOD, XK_x,     ACTION##stack, {.i = -1 } }, */
 
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
-#define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
+#define SHCMD(cmd) { .v = (const char*[]){ "/bin/dash", "-c", cmd, NULL } }
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
@@ -103,9 +103,7 @@ static Key keys[] = {
 	{ MODKEY,			XK_0,		view,		{.ui = ~0 } },
 	{ MODKEY|ShiftMask,		XK_0,		tag,		{.ui = ~0 } },
 	{ MODKEY,			XK_minus,	spawn,		SHCMD("amixer sset Master 5%- ; pkill -RTMIN+10 dwmblocks") },
-	{ MODKEY|ShiftMask,		XK_minus,	spawn,		SHCMD("amixer sset Master 15%- ; pkill -RTMIN+10 dwmblocks") },
 	{ MODKEY,			XK_equal,	spawn,		SHCMD("amixer sset Master 5%+ ; pkill -RTMIN+10 dwmblocks") },
-	{ MODKEY|ShiftMask,		XK_equal,	spawn,		SHCMD("amixer sset Master 15%+ ; pkill -RTMIN+10 dwmblocks") },
 	/* { MODKEY,			XK_BackSpace,	spawn,		SHCMD("") }, */
 	{ MODKEY|ShiftMask,		XK_BackSpace,	spawn,		SHCMD("prompt \"Reboot computer?\" \"sudo -A reboot\"") },
 
@@ -124,6 +122,7 @@ static Key keys[] = {
 	/* { MODKEY,			XK_y,		spawn,		SHCMD("") }, */
 	/* { MODKEY|ShiftMask,		XK_y,		spawn,		SHCMD("") }, */
 	{ MODKEY,			XK_u,		setlayout,	{.v = &layouts[3]} },
+	{ MODKEY|ShiftMask,			XK_f,		setlayout,	{.v = &layouts[5]} },
 	/* { MODKEY|ShiftMask,		XK_u,		spawn,		SHCMD("") }, */
 	{ MODKEY,			XK_i,		incnmaster,     {.i = +1 } },
 	{ MODKEY|ShiftMask,		XK_i,		incnmaster,     {.i = -1 } },
@@ -139,7 +138,7 @@ static Key keys[] = {
 	/* { MODKEY|ShiftMask,		XK_backslash,		spawn,		SHCMD("") }, */
 
 	{ MODKEY,			XK_a,		spawn,		SHCMD("st -e alsamixer ; pkill -RTMIN+10 dwmblocks") },
-	/* { MODKEY|ShiftMask,		XK_a,		spawn,		SHCMD("") }, */
+	{ MODKEY|ShiftMask,		XK_a,		spawn,		SHCMD("anki") },
 	{ MODKEY,                       XK_s,      togglesticky,   {0} },
 	/* { MODKEY|ShiftMask,		XK_s,		spawn,		SHCMD("") }, */
 	{ MODKEY,			XK_d,		spawn,          {.v = dmenucmd } },
@@ -165,22 +164,19 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,		XK_z,		incrgaps,	{.i = -1 } },
 	{ MODKEY,			XK_x,		spawn,		SHCMD("slock & xset dpms force off; mpc pause ; pauseallmpv") },
 	{ MODKEY|ShiftMask,		XK_x,		spawn,		SHCMD("prompt \"Shutdown computer?\" \"sudo -A shutdown -h now\"") },
-	/* { MODKEY,			XK_c,		spawn,		SHCMD("") }, */
-	{ MODKEY|ShiftMask,		XK_c,		spawn,		SHCMD("mpv --no-osc --no-input-default-bindings --input-conf=/dev/null --title=mpvfloat /dev/video0") },
+	 { MODKEY,			XK_c,		spawn,		SHCMD("st -e calcurse") },
+	/* { MODKEY|ShiftMask,		XK_c,		spawn,		SHCMD("mpv --no-osc --no-input-default-bindings --input-conf=/dev/null --title=mpvfloat /dev/video0") }, */
 	/* { MODKEY,			XK_v,		spawn,		SHCMD("") }, */
-	/* { MODKEY|ShiftMask,		XK_v,		spawn,		SHCMD("") }, */
+	/*{ MODKEY|ShiftMask,		XK_v,		spawn,		SHCMD("st -e vm") }, */
 	{ MODKEY,			XK_b,		togglebar,	{0} },
-	{ MODKEY|ShiftMask,		XK_b,		spawn,		SHCMD("hover left") },
-	{ MODKEY,			XK_n,		spawn,		SHCMD("st -e newsboat") },
+	{ MODKEY|ShiftMask,		XK_b,		spawn,		SHCMD("bgrandom") },
+	{ MODKEY,			XK_n,		spawn,		SHCMD("st -e nvim") },
 	{ MODKEY|ShiftMask,		XK_n,		spawn,		SHCMD("hover right") },
 	{ MODKEY,			XK_m,		spawn,		SHCMD("st -e ncmpcpp") },
 	{ MODKEY|ShiftMask,		XK_m,		spawn,		SHCMD("amixer sset Master toggle ; pkill -RTMIN+10 dwmblocks") },
 	{ MODKEY,			XK_comma,	spawn,		SHCMD("mpc prev") },
 	{ MODKEY|ShiftMask,		XK_comma,	spawn,		SHCMD("mpc seek 0%") },
 	{ MODKEY,			XK_period,	spawn,		SHCMD("mpc next") },
-	/* { MODKEY|ShiftMask,		XK_period,	spawn,		SHCMD("") }, */
-
-
 	{ MODKEY,			XK_Page_Up,	shiftview,	{ .i = -1 } },
 	{ MODKEY,			XK_Page_Down,	shiftview,	{ .i = 1 } },
 	{ MODKEY,			XK_Insert,		spawn,		SHCMD("showclip") },
@@ -192,22 +188,16 @@ static Key keys[] = {
 	{ MODKEY,			XK_F5,		xrdb,		{.v = NULL } },
 	{ MODKEY,			XK_F6,		spawn,		SHCMD("torwrap") },
 	{ MODKEY,			XK_F7,		spawn,		SHCMD("td-toggle") },
-	{ MODKEY,			XK_F8,		spawn,		SHCMD("mailsync") },
-	{ MODKEY,			XK_F9,		spawn,		SHCMD("dmenumount") },
-	{ MODKEY,			XK_F10,		spawn,		SHCMD("dmenuumount") },
-	/* { MODKEY,			XK_F11,		spawn,		SHCMD("") }, */
-	{ MODKEY,			XK_F12,		spawn,		SHCMD("st -e sudo nmtui") },
-
+	{ MODKEY,			XK_F8,		spawn,		SHCMD("st -e sudo -A nmtui") },
+	{ MODKEY|ShiftMask,			XK_Insert,		spawn,		SHCMD("dmenumount") },
+	{ MODKEY|ShiftMask,			XK_Delete,		spawn,		SHCMD("dmenuumount") },
+	{ MODKEY,			XK_F11,		spawn,		SHCMD("light -U 10") },
+	{ MODKEY,			XK_F12,		spawn,		SHCMD("light -A 10") },
 	/* { MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} }, */
-
-
 	{ MODKEY,			XK_space,	zoom,		{0} },
 	{ MODKEY|ShiftMask,		XK_space,	togglefloating,	{0} },
-
-
 	/* { XK_Print,	spawn,		SHCMD("maim pic-full-$(date '+%y%m\\%d-%H%M-\\%S').png") }, */
-	{ ShiftMask,			XK_Print,	spawn,		SHCMD("maimpick") },
-	{ MODKEY,			XK_Print,	spawn,		SHCMD("dmenurecord") },
+	{ MODKEY,			XK_Print,	spawn,		SHCMD("maimpick") },
 	{ MODKEY|ShiftMask,		XK_Print,	spawn,		SHCMD("dmenurecord kill") },
 	{ MODKEY,			XK_Delete,	spawn,		SHCMD("dmenurecord kill") },
 
@@ -237,6 +227,8 @@ static Key keys[] = {
 	{ 0,	XF86XK_TouchpadToggle,	spawn,		SHCMD("(synclient | grep 'TouchpadOff.*1' && synclient TouchpadOff=0) || synclient TouchpadOff=1") },
 	{ 0,	XF86XK_TouchpadOff,	spawn,		SHCMD("synclient TouchpadOff=1") },
 	{ 0,	XF86XK_TouchpadOn,	spawn,		SHCMD("synclient TouchpadOff=0") },
+	{ 0,	XF86XK_MonBrightnessUp,	spawn,		SHCMD("light -A 5") },
+	{ 0,	XF86XK_MonBrightnessDown,	spawn,		SHCMD("light -U 5") },
 
 	/* { MODKEY,                       XK_space,  setlayout,      {0} }, */
 
