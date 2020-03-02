@@ -1,4 +1,4 @@
-# Luke's build of dwm
+# Evan's build of dwm
 
 Here's my build of dwm.
 
