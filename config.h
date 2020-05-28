@@ -104,9 +104,7 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,		XK_0,		tag,		{.ui = ~0 } },
 	{ MODKEY,			XK_minus,	spawn,		SHCMD("amixer sset Master 5%- ; pkill -RTMIN+10 dwmblocks") },
 	{ MODKEY,			XK_equal,	spawn,		SHCMD("amixer sset Master 5%+ ; pkill -RTMIN+10 dwmblocks") },
-	/* { MODKEY,			XK_BackSpace,	spawn,		SHCMD("") }, */
 	{ MODKEY|ShiftMask,		XK_BackSpace,	spawn,		SHCMD("prompt \"Reboot computer?\" \"sudo -A reboot\"") },
-
 	{ MODKEY,			XK_Tab,		view,		{0} },
 	/* { MODKEY|ShiftMask,		XK_Tab,		spawn,		SHCMD("") }, */
 	{ MODKEY,			XK_q,		killclient,	{0} },
@@ -137,7 +135,7 @@ static Key keys[] = {
 	{ MODKEY,			XK_backslash,		view,		{0} },
 	/* { MODKEY|ShiftMask,		XK_backslash,		spawn,		SHCMD("") }, */
 
-	{ MODKEY,			XK_a,		spawn,		SHCMD("st -e alsamixer ; pkill -RTMIN+10 dwmblocks") },
+	{ MODKEY,			XK_a,		spawn,		SHCMD("pavucontrol; pkill -RTMIN+10 dwmblocks") },
 	{ MODKEY|ShiftMask,		XK_a,		spawn,		SHCMD("anki") },
 	{ MODKEY,                       XK_s,      togglesticky,   {0} },
 	/* { MODKEY|ShiftMask,		XK_s,		spawn,		SHCMD("") }, */
@@ -181,7 +179,8 @@ static Key keys[] = {
 	{ MODKEY,			XK_Page_Down,	shiftview,	{ .i = 1 } },
 	{ MODKEY,			XK_Insert,		spawn,		SHCMD("showclip") },
 
-	{ MODKEY,			XK_F1,		spawn,		SHCMD("groff -mom $HOME/.local/share/larbs/readme.mom -Tpdf | zathura -") },
+	{ MODKEY|ShiftMask,	XK_F1,		spawn,		SHCMD("st -e nvim $SCRATCHCOMMAND") },
+	{ MODKEY,	XK_F1,		spawn,		SHCMD("$SCRATCHCOMMAND") },
 	{ MODKEY,			XK_F2,		quit,		{0} },
 	{ MODKEY,			XK_F3,		spawn,		SHCMD("displayselect") },
 	{ MODKEY,			XK_F4,		spawn,		SHCMD("prompt \"Hibernate computer?\" \"sudo -A zzz -Z\"") },
